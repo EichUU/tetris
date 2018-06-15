@@ -1,6 +1,8 @@
 package tetris;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Panel;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -13,21 +15,29 @@ Website: http://zetcode.com
 public class Tetris extends JFrame { 
 
     private JLabel statusbar;
-
+    private BorderLayout bl = new BorderLayout();
+    private Panel p1 = new Panel();
+    
     public Tetris() {
 
         initUI();
     }
-
+    
     private void initUI() {  //init 메서드로 초기화
 
-        statusbar = new JLabel(" 0"); //이 라벨을 어디서 어떻게 처리하는가?
-        add(statusbar, BorderLayout.SOUTH); 
+        statusbar = new JLabel(" 0"); //이 라벨은 Board 클래스에서 처리된다
+        setLayout(bl);
+        add("North", statusbar);
+        
+        //add("EAST",p1);  //다음 블록이 무엇인지 알고싶다
+        //p1.add(nextBlock);
+        
+        //add(statusbar, BorderLayout.NORTH); 
         //add(new TextArea(), BorderLayout.CENTER) api에서 나온 클래스의 간편한 사용법
 
         Board board = new Board(this);
         add(board);
-        board.start(); //보드 클래스를 여기서 불러내 실행하는구나..
+        board.start(); //보드 클래스를 여기서 불러내 실행하는건가?
 
         setTitle("Tetris");
         setSize(200, 400);
@@ -55,7 +65,7 @@ public class Tetris extends JFrame {
         	//runable 인터페이스를 실행해준다..
 
             Tetris tetris = new Tetris();
-            
+           
         });
     }
 }

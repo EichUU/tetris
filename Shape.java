@@ -4,12 +4,12 @@ import java.util.Random;
 public class Shape {
 
     protected enum Tetrominoe { NoShape, ZShape, SShape, LineShape, 
-               TShape, SquareShape, LShape, MirroredLShape };
+               TShape, SquareShape, LShape, MirroredLShape }
     //enum 은 무엇을 뜻하는가?
                
-    private Tetrominoe pieceShape; //이 변수는?
+    private Tetrominoe pieceShape; //이 변수는? enum 의 한 타입을 정의해 주기 위한 초석?
     private int coords[][]; //이 배열은?
-    private int[][][] coordsTable; 
+    private int coordsTable[][][]; 
 
 
     public Shape() {
@@ -20,9 +20,9 @@ public class Shape {
 
     public void setShape(Tetrominoe shape) {
 
-         coordsTable = new int[][][] { //도형을 나타내는 배열이다
+         coordsTable = new int[][][] { //8개의 도형은 4가지의 좌표를 가진다, 그리고 각 회전값을 가진다
             { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },  // NoShape
-            { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } }, // SShape?
+            { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } }, // SShape
             { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },  // ZShape
             { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },  // LineShape
             { { -1, 0 },  { 0, 0 },   { 1, 0 },   { 0, 1 } },  // TShape 
@@ -35,12 +35,15 @@ public class Shape {
             
             for (int j = 0; j < 2; ++j) {
                 
-                coords[i][j] = coordsTable[shape.ordinal()][i][j];
-                
+                coords[i][j] = coordsTable[shape.ordinal()][i][j]; 
+                						//ordinal -> 나열된 순서를 숫자로 0부터  반환
+              //배열에 배열을 대입하는 작업을 어떻게 이해해야하나?
             }
         } //이 2중 for문을 어떻게 이해해야하나
         
-        pieceShape = shape;
+        pieceShape = shape; //2중for문으로 돌아간 배열모양의 도형이 pieceShape에 대입, 
+        					//그것으로 enum안의 문자가 실제적인 도형이 된다 
+        
     }
 
     private void setX(int index, int x) { 
@@ -67,7 +70,7 @@ public class Shape {
         setShape(values[x]);
     }
 
-    public int minX() {
+    public int minX() { //머지?
         
       int m = coords[0][0];
       
@@ -80,7 +83,7 @@ public class Shape {
     }
 
 
-    public int minY() {
+    public int minY() { //머지?
         
       int m = coords[0][1];
       
@@ -107,22 +110,5 @@ public class Shape {
         }
         
         return result;
-    }
-
-    public Shape rotateRight() { //오른쪽으로 회전시킨다
-        
-        if (pieceShape == Tetrominoe.SquareShape)
-            return this;
-
-        Shape result = new Shape();
-        result.pieceShape = pieceShape;
-
-        for (int i = 0; i < 4; ++i) {
-
-            result.setX(i, -y(i));
-            result.setY(i, x(i));
-        }
-        
-        return result;
-    }
+    }    
 }
